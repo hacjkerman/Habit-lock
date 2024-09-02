@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import "./App.css";
-import { appendHabitToLocal, updateRules } from "./scripts/habit_setter";
+import {
+  appendHabitToLocal,
+  toggleRules,
+  updateRules,
+} from "./scripts/habit_setter";
 
 function App() {
   const [habit, setHabit] = useState("");
@@ -23,6 +27,7 @@ function App() {
   const toggleExtension = (e: any) => {
     e.preventDefault();
     setIsEnabled(!isEnabled);
+    toggleRules(isEnabled);
   };
 
   return (

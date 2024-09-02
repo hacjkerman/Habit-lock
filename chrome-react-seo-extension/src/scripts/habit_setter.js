@@ -3,27 +3,35 @@ export async function appendHabitToLocal(habit) {
   console.log(habit);
 }
 
-export async function updateRules(blockUrls) {
+export async function updateRules(allowedUrls) {
   const newRules = [];
   // blockUrls.forEach((domain, index) => {
   newRules.push({
     id: 1,
     priority: 1,
-    action: { type: "block" },
+    action: { type: "allow" },
     condition: {
-      urlFilter: blockUrls,
+      urlFilter: allowedUrls,
       resourceTypes: ["main_frame", "sub_frame"],
     },
   });
   // });
-  const newRule = await chrome.declarativeNetRequest.getDynamicRules(
-    (previousRules) => {
-      const previousRuleIds = previousRules.map((rule) => rule.id);
-      chrome.declarativeNetRequest.updateDynamicRules({
-        removeRuleIds: previousRuleIds,
-        addRules: newRules,
-      });
-    }
-  );
-  console.log(newRule);
+  chrome.declarativeNetRequest.getDynamicRules((previousRules) => {
+    console.log(previousRules);
+    const previousRuleIds = previousRules.map((rule) => rule.id);
+    chrome.declarativeNetRequest.updateDynamicRules({
+      removeRuleIds: previousRuleIds,
+      addRules: newRules,
+    });
+  });
+}
+
+export async function toggleRules(currState) {
+  const options = {};
+  if (currState) {
+    options.disableRulesetIds = ["ruleset_1"];
+  } else {
+    options.enableRulesetIds = ["ruleset_1"];
+  }
+  chrome.declarativeNetRequest.updateEnabledRulesets(options);
 }
