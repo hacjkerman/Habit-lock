@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import "./App.css";
-import { appendHabitToLocal } from "./scripts/habit_setter";
+import { appendHabitToLocal, updateRules } from "./scripts/habit_setter";
 
 function App() {
   const [habit, setHabit] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
   const submitInput = (e: any) => {
     e.preventDefault();
+    if (habit === "") {
+      return;
+    }
     const currentHabit = habit;
     appendHabitToLocal(currentHabit);
+    updateRules(currentHabit);
     setHabit("");
-    window.location.replace("");
   };
 
   const storeHabit = (e: any) => {
