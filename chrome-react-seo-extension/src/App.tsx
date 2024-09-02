@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import {
   appendHabitToLocal,
@@ -14,9 +14,8 @@ function App() {
     if (habit === "") {
       return;
     }
-    const currentHabit = habit;
-    appendHabitToLocal(currentHabit);
-    updateRules(currentHabit);
+    appendHabitToLocal(habit);
+    updateRules(habit);
     setHabit("");
   };
 
@@ -27,9 +26,11 @@ function App() {
   const toggleExtension = (e: any) => {
     e.preventDefault();
     setIsEnabled(!isEnabled);
-    toggleRules(isEnabled);
   };
 
+  useEffect(() => {
+    toggleRules(isEnabled);
+  }, [isEnabled]);
   return (
     <div className="App">
       <input onChange={storeHabit} value={habit} />

@@ -17,7 +17,6 @@ export async function updateRules(allowedUrls) {
   });
   // });
   chrome.declarativeNetRequest.getDynamicRules((previousRules) => {
-    console.log(previousRules);
     const previousRuleIds = previousRules.map((rule) => rule.id);
     chrome.declarativeNetRequest.updateDynamicRules({
       removeRuleIds: previousRuleIds,
@@ -28,10 +27,11 @@ export async function updateRules(allowedUrls) {
 
 export async function toggleRules(currState) {
   const options = {};
+  console.log(currState);
   if (currState) {
-    options.disableRulesetIds = ["ruleset_1"];
-  } else {
     options.enableRulesetIds = ["ruleset_1"];
+  } else {
+    options.disableRulesetIds = ["ruleset_1"];
   }
   chrome.declarativeNetRequest.updateEnabledRulesets(options);
 }
