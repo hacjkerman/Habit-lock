@@ -1,9 +1,9 @@
 /*global chrome*/
-export async function appendHabitToLocal(habit) {
+export function appendHabitToLocal(habit) {
   console.log(habit);
 }
 
-export async function updateRules(allowedUrls) {
+export function updateRules(allowedUrls) {
   const newRules = [];
   // blockUrls.forEach((domain, index) => {
   newRules.push({
@@ -25,9 +25,8 @@ export async function updateRules(allowedUrls) {
   });
 }
 
-export async function toggleRules(currState) {
+export function toggleRules(currState) {
   const options = {};
-  console.log(currState);
   if (currState) {
     options.enableRulesetIds = ["ruleset_1"];
   } else {
