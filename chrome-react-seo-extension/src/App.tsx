@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import {
-  appendHabitToLocal,
-  toggleRules,
-  updateRules,
-} from "./scripts/habit_setter";
+import { appendHabitToLocal, toggleRules } from "./scripts/habit_setter";
 import { getItemFromLocal, setItemInLocal } from "./localInterface";
 
 function App() {
   const [habit, setHabit] = useState("");
-  const [currHabit, setCurrHabit] = useState("");
+  const [currHabits, setCurrHabits] = useState([]);
   const [isEnabled, setIsEnabled] = useState(false);
   const submitInput = (e: any) => {
     e.preventDefault();
     if (habit === "") {
       return;
     }
-    appendHabitToLocal(habit);
-    updateRules(habit);
-    setItemInLocal("habit", habit);
-    setCurrHabit(habit);
+    const habits = appendHabitToLocal(habit);
+    setCurrHabits(habits);
     setHabit("");
   };
 
@@ -43,9 +37,9 @@ function App() {
     if (state !== undefined) {
       setIsEnabled(state);
     }
-    const habit = getItemFromLocal("habit");
-    if (habit !== undefined) {
-      setCurrHabit(habit);
+    const habits = getItemFromLocal("habits");
+    if (habits !== undefined) {
+      setCurrHabits(habits);
     }
   }, []);
   return (
@@ -54,7 +48,13 @@ function App() {
       <button type="submit" onClick={submitInput}>
         Submit
       </button>
-      <div className="">{currHabit}</div>
+      <div className="">
+        <h2 className="">Habits</h2>
+        {currHabits &&
+          currHabits.map((habit) => {
+            return <div key={habit}>{habit}</div>;
+          })}
+      </div>
       <button onClick={toggleExtension}>{isEnabled ? "Unlock" : "Lock"}</button>
     </div>
   );

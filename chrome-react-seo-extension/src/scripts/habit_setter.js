@@ -1,6 +1,16 @@
 /*global chrome*/
+import { getItemFromLocal, setItemInLocal } from "../localInterface";
 export function appendHabitToLocal(habit) {
-  console.log(habit);
+  let habits = getItemFromLocal("habits");
+  if (habits !== null) {
+    habits.push(habit);
+  } else {
+    habits = [];
+    habits.push(habit);
+  }
+  setItemInLocal("habits", habits);
+  updateRules(habit);
+  return habits;
 }
 
 export function updateRules(allowedUrls) {
